@@ -10,6 +10,7 @@ const userRouter = require("./routes/admin/user");
 const productRouter = require("./routes/admin/product");
 const orderRouter = require("./routes/admin/order");
 const categoryRouter = require("./routes/admin/category");
+const brandRouter = require("./routes/admin/brand");
 
 function authorizeUser(request, response, next) {
   if (request.url == "/admin/login") next();
@@ -39,6 +40,7 @@ app.use("/user", userRouter);
 app.use("/product", productRouter);
 app.use("/order", orderRouter);
 app.use("/category", categoryRouter);
+app.use("/brand", brandRouter);
 
 app.listen(7000, "localhost", () => {
   console.log("Server started on port 7000");
