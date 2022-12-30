@@ -20,6 +20,7 @@ router.post("/", (request, response) => {
 });
 
 router.put("/:id", (request, response) => {
+  const { id } = request.params;
   const { title, description } = request.body;
   const sql = `UPDATE category SET title = '${title}', description = '${description}' WHERE id = ${id}`;
   db.conn.execute(sql, (error, data) => {
@@ -28,6 +29,7 @@ router.put("/:id", (request, response) => {
 });
 
 router.delete("/:id", (request, response) => {
+  const { id } = request.params;
   const sql = `DELETE FROM category WHERE id = ${id};`;
   db.conn.execute(sql, (error, data) => {
     response.send(utils.createResult(error, data));
