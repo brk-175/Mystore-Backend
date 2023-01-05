@@ -4,6 +4,7 @@ const utils = require("./utils");
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
 const config = require("./config");
+const morgan = require("morgan");
 
 const adminRouter = require("./routes/admin/admin");
 const userRouter = require("./routes/admin/user");
@@ -13,7 +14,7 @@ const categoryRouter = require("./routes/admin/category");
 const brandRouter = require("./routes/admin/brand");
 
 function authorizeUser(request, response, next) {
-  if (request.url == "/admin/login") next();
+  if (request.url == "/admin/login" || request.url.startsWith('/product/image')) next();
   else {
     const { token } = request.headers;
     if (!token) {
@@ -32,15 +33,16 @@ function authorizeUser(request, response, next) {
 }
 
 const app = express();
+app.use(cors("*"));
 app.use(authorizeUser);
 app.use(bodyParser.json());
-app.use(cors("*"));
 app.use("/admin", adminRouter);
 app.use("/user", userRouter);
 app.use("/product", productRouter);
 app.use("/order", orderRouter);
 app.use("/category", categoryRouter);
 app.use("/brand", brandRouter);
+app.use(morgan("combined"));
 
 app.listen(7000, "localhost", () => {
   console.log("Server started on port 7000");
