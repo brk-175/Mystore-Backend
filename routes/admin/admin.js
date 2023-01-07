@@ -10,7 +10,7 @@ const router = express.Router();
 router.post("/login", (request, response) => {
   const { email, password } = request.body;
   const encrPassword = crypto.SHA256(password);
-  const sql = `SELECT firstName, lastName FROM admin WHERE email = '${email}' AND password = '${encrPassword}'`;
+  const sql = `SELECT * FROM admin WHERE email = '${email}' AND password = '${encrPassword}'`;
   db.conn.execute(sql, (error, data) => {
     const result = {};
     if (error) {
@@ -23,6 +23,7 @@ router.post("/login", (request, response) => {
       const token = jwt.sign({ id: data[0].id }, config.secret);
       result.status = "success";
       result.data = {
+        id: data[0].id,
         firstName: data[0].firstName,
         lastName: data[0].lastName,
         token: token,
