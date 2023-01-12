@@ -4,10 +4,11 @@ const utils = require("../../utils");
 const multer = require("multer");
 const upload = multer({ dest: "./images" });
 const fs = require("fs");
+
 const router = express.Router();
 
 router.get("/", (request, response) => {
-  const sql = `SELECT * FROM product`;
+  const sql = `SELECT p.*, c.title as categoryTitle, b.title as brandTitle FROM product p JOIN category c ON p.categoryId = c.id JOIN brand b ON p.brandId = b.id`;
   db.conn.execute(sql, (error, data) => {
     response.send(utils.createResult(error, data));
   });

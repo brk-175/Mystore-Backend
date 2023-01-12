@@ -20,8 +20,8 @@ router.post("/", (request, response) => {
 });
 
 router.put("/:id", (request, response) => {
-    const { id } = request.params;
-    const { title, description } = request.body;
+  const { id } = request.params;
+  const { title, description } = request.body;
   const sql = `UPDATE brand SET title = '${title}', description = '${description}' WHERE id = ${id}`;
   db.conn.execute(sql, (error, data) => {
     response.send(utils.createResult(error, data));
