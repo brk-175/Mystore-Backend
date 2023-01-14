@@ -11,6 +11,8 @@ const productRouter = require("./routes/portal/product");
 const categoryRouter = require("./routes/portal/category");
 const brandRouter = require("./routes/portal/brand");
 const cartRouter = require("./routes/portal/cart");
+const addressRouter = require("./routes/portal/address");
+const orderRouter = require("./routes/portal/order");
 
 function authorizeUser(request, response, next) {
   if (
@@ -47,6 +49,8 @@ app.use("/product", productRouter);
 app.use("/category", categoryRouter);
 app.use("/brand", brandRouter);
 app.use("/cart", cartRouter);
+app.use("/address", addressRouter);
+app.use("/order", orderRouter);
 
 app.listen(7100, "localhost", () => {
   console.log("Server started on port 7100");
