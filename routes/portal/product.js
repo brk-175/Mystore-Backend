@@ -13,6 +13,14 @@ router.get("/", (request, response) => {
   });
 });
 
+router.get("/:id", (request, response) => {
+  const { id } = request.params;
+  const sql = `SELECT p.*, c.title as categoryTitle, b.title as brandTitle FROM product p JOIN category c ON p.categoryId = c.id JOIN brand b ON p.brandId = b.id WHERE p.id = ${id}`;
+  db.conn.execute(sql, (error, data) => {
+    response.send(utils.createResult(error, data));
+  });
+});
+
 router.get("/search/:text", (request, response) => {
   const { text } = request.params;
   const sql = `SELECT p.*, c.title as categoryTitle, b.title as brandTitle FROM product p JOIN category c ON p.categoryId = c.id JOIN brand b ON p.brandId = b.id WHERE p.title LIKE '%${text}%' OR p.description LIKE '%${text}%'`;

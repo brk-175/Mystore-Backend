@@ -1,5 +1,6 @@
 const express = require("express");
 const utils = require("../../utils");
+const db = require("../../db");
 const mysql2 = require("mysql2/promise");
 const router = express.Router();
 
@@ -11,6 +12,21 @@ const pool = mysql2.createPool({
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,
+});
+
+router.get("/", (request, response) => {
+  const sql = `SELECT * FROM user_order WHERE userId = ${request.userId}`;
+  db.conn.query(sql, (error, data) => {
+    response.send(utils.createResult(error, data));
+  });
+});
+
+router.delete("/cancel/:id", (request, response) => {
+  const { id } = request.params;
+  const sql = `UPDATE user_order SET orderStatus = 6 WHERE id = ${id}`;
+  db.conn.query(sql, (error, data) => {
+    response.send(utils.createResult(error, data));
+  });
 });
 
 router.post("/", (request, response) => {

@@ -4,7 +4,6 @@ const utils = require("./utils");
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
 const config = require("./config");
-const morgan = require("morgan");
 
 const userRouter = require("./routes/portal/user");
 const productRouter = require("./routes/portal/product");
@@ -13,6 +12,7 @@ const brandRouter = require("./routes/portal/brand");
 const cartRouter = require("./routes/portal/cart");
 const addressRouter = require("./routes/portal/address");
 const orderRouter = require("./routes/portal/order");
+const productReviewRouter = require("./routes/portal/product-review");
 
 function authorizeUser(request, response, next) {
   if (
@@ -51,6 +51,7 @@ app.use("/brand", brandRouter);
 app.use("/cart", cartRouter);
 app.use("/address", addressRouter);
 app.use("/order", orderRouter);
+app.use("/review", productReviewRouter);
 
 app.listen(7100, "localhost", () => {
   console.log("Server started on port 7100");
