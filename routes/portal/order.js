@@ -2,6 +2,7 @@ const express = require("express");
 const utils = require("../../utils");
 const db = require("../../db");
 const mysql2 = require("mysql2/promise");
+const { query } = require("express");
 const router = express.Router();
 
 const pool = mysql2.createPool({
@@ -59,6 +60,14 @@ router.post("/", (request, response) => {
 
     response.send({ status: "success" });
   })();
+});
+
+router.get("/preview/:id", (request, response) => {
+  const id = request.params.id;
+  const sql = `SELECT p.title, c.title as category, b.title as brand, o.price, o.quantity, o.totalAmount FROM user_order_details o INNER JOIN product p ON o.productId = p.id INNER JOIN category c ON p.categoryId = c.id INNER JOIN brand b ON p.brandId = b.id WHERE o.orderId = ${id};`;
+  db.conn.query(sql, (error, data) => {
+    response.send(utils.createResult(error, data));
+  });
 });
 
 module.exports = router;

@@ -4,6 +4,7 @@ const utils = require("../../utils");
 const crypto = require("crypto-js");
 const jwt = require("jsonwebtoken");
 const config = require("../../config");
+const emailValidator = require("email-validator");
 
 const router = express.Router();
 
@@ -20,10 +21,7 @@ router.post("/login", (request, response) => {
       result.status = "error";
       result.error = "Invalid Email or Password !";
     } else {
-      if (data[0].status == 0) {
-        result.status = "error";
-        result.error = "Please activate your account !";
-      } else if (data[0].status == 2) {
+      if (data[0].status == 2) {
         result.status = "error";
         result.error =
           "Your account is suspended, please contact <admin@mystore.com> !";
