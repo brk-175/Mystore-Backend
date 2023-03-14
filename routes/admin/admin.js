@@ -33,4 +33,13 @@ router.post("/login", (request, response) => {
   });
 });
 
+router.post("/signup", (request, response) => {
+  const { firstName, lastName, phone, email, password } = request.body;
+  const encrPassword = crypto.SHA256(password);
+  const sql = `INSERT INTO admin (firstName, lastName, phone, email, password) VALUES ('${firstName}','${lastName}','${phone}','${email}','${encrPassword}');`;
+  db.conn.execute(sql, (error, data) => {
+    response.send(utils.createResult(error, data));
+  });
+});
+
 module.exports = router;

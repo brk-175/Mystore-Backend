@@ -14,7 +14,12 @@ const categoryRouter = require("./routes/admin/category");
 const brandRouter = require("./routes/admin/brand");
 
 function authorizeUser(request, response, next) {
-  if (request.url == "/admin/login" || request.url.startsWith('/product/image')) next();
+  if (
+    request.url == "/admin/signup" ||
+    request.url == "/admin/login" ||
+    request.url.startsWith("/product/image")
+  )
+    next();
   else {
     const { token } = request.headers;
     if (!token) {
